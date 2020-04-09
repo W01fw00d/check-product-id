@@ -1,7 +1,7 @@
 describe("ProductIdValidator", () => {
   let validator;
 
-  beforeEach(function () {
+  beforeEach(() => {
     validator = new ProductIdValidator();
   });
 

@@ -8,17 +8,33 @@
   </head>
 
   <body>
-    <input id="numericInput1" class="numericInput" />
-    <tr>
-      -
-    </tr>
-    <input id="numericInput2" class="numericInput" />
-    <tr>
-      -
-    </tr>
-    <input id="numericInput3" class="numericInput" />
-
-    <button id="submit" type="button">Submit</button>
+    <form onsubmit="submitValue(this)">
+      <input
+        name="numericInput1"
+        id="numericInput1"
+        class="numericInput"
+        required
+      />
+      <tr>
+        -
+      </tr>
+      <input
+        name="numericInput2"
+        id="numericInput2"
+        class="numericInput"
+        required
+      />
+      <tr>
+        -
+      </tr>
+      <input
+        name="numericInput3"
+        id="numericInput3"
+        class="numericInput"
+        required
+      />
+      <input id="submit" type="submit" value="Submit" />
+    </form>
 
     <script>
       const setInputFilter = (textbox, inputFilter) => {
@@ -51,8 +67,7 @@
       };
 
       const fourDigitFormat = (value) =>
-        /^\d*$/.test(value) &&
-        (value === "" || (parseInt(value) >= 0000 && parseInt(value) <= 9999));
+        /^\d*$/.test(value) && (value === "" || parseInt(value) <= 9999);
 
       Array.prototype.forEach.call(
         document.getElementsByClassName("numericInput"),
@@ -61,30 +76,18 @@
         }
       );
 
-      /* setInputFilter(
-              document.getElementById("intLimitTextBox1"),
-              fourDigitFormat
-            );
-            setInputFilter(
-              document.getElementById("intLimitTextBox2"),
-              fourDigitFormat
-            );
-            setInputFilter(
-              document.getElementById("intLimitTextBox3"),
-              fourDigitFormat
-            ); */
-
-      document.getElementById("submit").addEventListener("click", () => {
-        const validator = new ProductIdValidator();
-        console.log(document.getElementById("numericInput1").value);
+      function submitValue(form) {
         const productId =
-          `${document.getElementById("numericInput1").value}-` +
-          `${document.getElementById("numericInput2").value}-` +
-          `${document.getElementById("numericInput3").value}`;
-        const isValid = validator.validate(productId);
+          `${form.numericInput1.value}-` +
+          `${form.numericInput2.value}-` +
+          `${form.numericInput3.value}`;
+        const isValid = new ProductIdValidator().validate(productId);
 
         alert(`"${productId}" is ${isValid ? "" : "not "}a valid ProductId`);
-      });
+        if (!isValid) {
+          event.preventDefault();
+        }
+      }
     </script>
   </body>
 </html>
