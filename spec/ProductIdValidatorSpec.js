@@ -5,7 +5,7 @@ describe("ProductIdValidator", () => {
     validator = new ProductIdValidator();
   });
 
-  it("should return true when argument with correct format", () => {
+  it("should return true when argument has correct format", () => {
     expect(
       validator.validate(
         `${getRandomFourDigitNumber()}-${getRandomFourDigitNumber()}-${getRandomFourDigitNumber()}`

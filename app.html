@@ -83,7 +83,11 @@
           `${form.numericInput3.value}`;
         const isValid = new ProductIdValidator().validate(productId);
 
-        alert(`"${productId}" is ${isValid ? "" : "not "}a valid ProductId`);
+        alert(
+          `${isValid ? "Well done!" : "Unfortunately,"} "${productId}" is ${
+            isValid ? "" : "not "
+          }a valid ProductId`
+        );
         if (!isValid) {
           event.preventDefault();
         }
