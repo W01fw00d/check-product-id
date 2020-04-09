@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Product Id Validator</title>
+
+    <script src="src/ProductIdValidator.js"></script>
+  </head>
+
+  <body>
+    <input id="numericInput1" class="numericInput" />
+    <tr>
+      -
+    </tr>
+    <input id="numericInput2" class="numericInput" />
+    <tr>
+      -
+    </tr>
+    <input id="numericInput3" class="numericInput" />
+
+    <button id="submit" type="button">Submit</button>
+
+    <script>
+      const setInputFilter = (textbox, inputFilter) => {
+        [
+          "input",
+          "keydown",
+          "keyup",
+          "mousedown",
+          "mouseup",
+          "select",
+          "contextmenu",
+          "drop",
+        ].forEach((event) => {
+          textbox.addEventListener(event, function () {
+            if (inputFilter(this.value)) {
+              this.oldValue = this.value;
+              this.oldSelectionStart = this.selectionStart;
+              this.oldSelectionEnd = this.selectionEnd;
+            } else if (this.hasOwnProperty("oldValue")) {
+              this.value = this.oldValue;
+              this.setSelectionRange(
+                this.oldSelectionStart,
+                this.oldSelectionEnd
+              );
+            } else {
+              this.value = "";
+            }
+          });
+        });
+      };
+
+      const fourDigitFormat = (value) =>
+        /^\d*$/.test(value) &&
+        (value === "" || (parseInt(value) >= 0000 && parseInt(value) <= 9999));
+
+      Array.prototype.forEach.call(
+        document.getElementsByClassName("numericInput"),
+        (selector) => {
+          setInputFilter(selector, fourDigitFormat);
+        }
+      );
+
+      /* setInputFilter(
+              document.getElementById("intLimitTextBox1"),
+              fourDigitFormat
+            );
+            setInputFilter(
+              document.getElementById("intLimitTextBox2"),
+              fourDigitFormat
+            );
+            setInputFilter(
+              document.getElementById("intLimitTextBox3"),
+              fourDigitFormat
+            ); */
+
+      document.getElementById("submit").addEventListener("click", () => {
+        const validator = new ProductIdValidator();
+        console.log(document.getElementById("numericInput1").value);
+        const productId =
+          `${document.getElementById("numericInput1").value}-` +
+          `${document.getElementById("numericInput2").value}-` +
+          `${document.getElementById("numericInput3").value}`;
+        const isValid = validator.validate(productId);
+
+        alert(`"${productId}" is ${isValid ? "" : "not "}a valid ProductId`);
+      });
+    </script>
+  </body>
+</html>
